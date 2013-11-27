@@ -1,6 +1,6 @@
 {
-        "description" : "CodeIgniter modified for DutchDrops",
         "name" : "dutchdrops/dd_codeigniter",
+        "description" : "CodeIgniter modified for DutchDrops",
         "require": {
             "php": ">=5.2.4"
         },
