@@ -250,15 +250,15 @@
             show_error('Unable to load your default controller. Please make sure the controller specified in your Routes.php file is valid.');
         }
 
-        include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+        include_once APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php';
     }
     else {
         if (file_exists(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php'))
         {
-            include(APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+            include_once APPPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php';
         }
 
-        include(SITEPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php');
+        include_once SITEPATH.'controllers/'.$RTR->fetch_directory().$RTR->fetch_class().'.php';
 
         $NS = $CFG->item('site_namespace');
     }
