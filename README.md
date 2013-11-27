@@ -1,4 +1,6 @@
-dd_codeigniter
-==============
+CodeIgniter
+===========
 
-dd_codeigniter
+EllisLab's Open Source PHP Framework (with modifications for DutchDrops)
+
+Use version >= 2.2.0
