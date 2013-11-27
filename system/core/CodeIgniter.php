@@ -233,11 +233,11 @@
         return CI_Controller::get_instance();
     }
 
-    require APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+    require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
 
     if (file_exists(SITEPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
     {
-        require SITEPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+        require_once SITEPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
     }
 
     // Load the local application controller
