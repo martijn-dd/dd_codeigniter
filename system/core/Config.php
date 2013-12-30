@@ -45,7 +45,7 @@ class CI_Config {
 	 *
 	 * @var array
 	 */
-	var $_config_paths = array(APPPATH);
+	var $_config_paths = array(APPPATH, SITEPATH);
 
 	/**
 	 * Constructor
@@ -93,86 +93,78 @@ class CI_Config {
 	 * @param   boolean  true if errors should just return false, false if an error message should be displayed
 	 * @return	boolean	if the file was loaded correctly
 	 */
-	function load($file = '', $use_sections = FALSE, $fail_gracefully = FALSE)
-	{
-		$file = ($file == '') ? 'config' : str_replace('.php', '', $file);
-		$found = FALSE;
-		$loaded = FALSE;
+    function load($file = '', $use_sections = false, $fail_gracefully = false)
+    {
+        if (empty($file)) {
+            $file = 'config';
+        }
+        else {
+            $file = str_replace('.php', '', $file);
+        }
 
-		$check_locations = defined('ENVIRONMENT')
-			? array(ENVIRONMENT.'/'.$file, $file)
-			: array($file);
+        $config          = array();
+        $loaded          = false;
+        $check_locations = array($file);
 
-		foreach ($this->_config_paths as $path)
-		{
-			foreach ($check_locations as $location)
-			{
-				$file_path = $path.'config/'.$location.'.php';
+        if (defined('ENVIRONMENT')) {
+            array_push($check_locations, ENVIRONMENT . '/' . $file);
+        }
 
-				if (in_array($file_path, $this->is_loaded, TRUE))
-				{
-					$loaded = TRUE;
-					continue 2;
-				}
+        foreach ($check_locations as $location) {
+            foreach ($this->_config_paths as $path) {
+                $file_path = $path . 'config/' . $location . '.php';
 
-				if (file_exists($file_path))
-				{
-					$found = TRUE;
-					break;
-				}
-			}
+                if (in_array($file, $this->is_loaded, true)) {
+                    $loaded = true;
 
-			if ($found === FALSE)
-			{
-				continue;
-			}
+                    continue 2;
+                }
 
-			include($file_path);
+                if (file_exists($file_path)) {
+                    $loaded = true;
 
-			if ( ! isset($config) OR ! is_array($config))
-			{
-				if ($fail_gracefully === TRUE)
-				{
-					return FALSE;
-				}
-				show_error('Your '.$file_path.' file does not appear to contain a valid configuration array.');
-			}
+                    /** @noinspection PhpIncludeInspection */
+                    require $file_path;
+                }
+            }
+        }
 
-			if ($use_sections === TRUE)
-			{
-				if (isset($this->config[$file]))
-				{
-					$this->config[$file] = array_merge($this->config[$file], $config);
-				}
-				else
-				{
-					$this->config[$file] = $config;
-				}
-			}
-			else
-			{
-				$this->config = array_merge($this->config, $config);
-			}
+        if (empty($config)) {
+            if ($fail_gracefully === true) {
+                return false;
+            }
 
-			$this->is_loaded[] = $file_path;
-			unset($config);
+            show_error('Your ' . $file . ' config file does not appear to contain a valid configuration array.');
+        }
 
-			$loaded = TRUE;
-			log_message('debug', 'Config file loaded: '.$file_path);
-			break;
-		}
+        if ($use_sections === true) {
+            if (isset($this->config[$file])) {
+                $this->config[$file] = array_merge($this->config[$file], $config);
+            }
+            else {
+                $this->config[$file] = $config;
+            }
+        }
+        else {
+            $this->config = array_merge($this->config, $config);
+        }
 
-		if ($loaded === FALSE)
-		{
-			if ($fail_gracefully === TRUE)
-			{
-				return FALSE;
-			}
-			show_error('The configuration file '.$file.'.php does not exist.');
-		}
+        $this->is_loaded[] = $file;
 
-		return TRUE;
-	}
+        unset($config);
+
+        log_message('debug', 'Config file loaded: ' . $file);
+
+        if ($loaded === false) {
+            if ($fail_gracefully === true) {
+                return false;
+            }
+
+            show_error('The configuration file ' . $file . '.php does not exist.');
+        }
+
+        return true;
+    }
 
 	// --------------------------------------------------------------------
 

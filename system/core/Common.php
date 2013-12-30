@@ -217,38 +217,46 @@ if ( ! function_exists('get_config'))
 	{
 		static $_config;
 
-		if (isset($_config))
-		{
+		if (isset($_config)) {
 			return $_config[0];
 		}
 
-		// Is the config file in the environment folder?
-		if ( ! defined('ENVIRONMENT') OR ! file_exists($file_path = APPPATH.'config/'.ENVIRONMENT.'/config.php'))
-		{
-			$file_path = APPPATH.'config/config.php';
-		}
+        $loaded = false;
+        $config = array();
 
-		// Fetch the config file
-		if ( ! file_exists($file_path))
-		{
+        $paths = array(
+            APPPATH . 'config/config.php',
+            SITEPATH . 'config/config.php',
+        );
+        if (defined('ENVIRONMENT')) {
+            $paths = array_merge(
+                $paths,
+                array(
+                    APPPATH . 'config/' . ENVIRONMENT .'/config.php',
+                    SITEPATH . 'config/' . ENVIRONMENT .'/config.php',
+                )
+            );
+        }
+        foreach ($paths as $file_path) {
+            if (file_exists($file_path)) {
+                require $file_path;
+
+                $loaded = true;
+            }
+        }
+
+		if (!$loaded) {
 			exit('The configuration file does not exist.');
 		}
 
-		require($file_path);
-
-		// Does the $config array exist in the file?
-		if ( ! isset($config) OR ! is_array($config))
-		{
+		if (empty($config)) {
 			exit('Your config file does not appear to be formatted correctly.');
 		}
 
 		// Are any values being dynamically replaced?
-		if (count($replace) > 0)
-		{
-			foreach ($replace as $key => $val)
-			{
-				if (isset($config[$key]))
-				{
+		if (count($replace) > 0) {
+			foreach ($replace as $key => $val) {
+				if (isset($config[$key])) {
 					$config[$key] = $val;
 				}
 			}

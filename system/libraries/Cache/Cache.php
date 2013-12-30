@@ -61,7 +61,7 @@ class CI_Cache extends CI_Driver_Library {
 	 * @return 	mixed		value that is stored/FALSE on failure
 	 */
 	public function get($id)
-	{	
+	{
 		return $this->{$this->_adapter}->get($id);
 	}
 
@@ -143,7 +143,7 @@ class CI_Cache extends CI_Driver_Library {
 	 * @return 	void
 	 */
 	private function _initialize($config)
-	{        
+	{
 		$default_config = array(
 				'adapter',
 				'memcached'
