@@ -93,7 +93,15 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 
-		return new PDO($this->hostname, $this->username, $this->password, $this->options);
+		$conn = new PDO($this->hostname, $this->username, $this->password, $this->options);
+        
+	        // Need this for PHP < 5.3.6
+	        if ( ! is_php('5.3.6'))
+	        {
+			$conn->exec($this->options['PDO::MYSQL_ATTR_INIT_COMMAND']);
+	        }
+	        
+	        return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -109,7 +117,15 @@ class CI_DB_pdo_driver extends CI_DB {
 		$this->options['PDO::ATTR_ERRMODE'] = PDO::ERRMODE_SILENT;
 		$this->options['PDO::ATTR_PERSISTENT'] = TRUE;
 	
-		return new PDO($this->hostname, $this->username, $this->password, $this->options);
+		$conn = new PDO($this->hostname, $this->username, $this->password, $this->options);
+        
+	        // Need this for PHP < 5.3.6
+	        if ( ! is_php('5.3.6'))
+	        {
+			$conn->exec($this->options['PDO::MYSQL_ATTR_INIT_COMMAND']);
+	        }
+	        
+	        return $conn;
 	}
 
 	// --------------------------------------------------------------------
