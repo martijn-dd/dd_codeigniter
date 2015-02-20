@@ -656,10 +656,7 @@ class CI_Session {
 	 */
 	public function userdata($item = NULL, $key = '')
 	{
-        if ($item === 'session_id') {
-            return session_id();
-        }
-        elseif (isset($item)) {
+        if (isset($item)) {
             if ($key) {
                 return isset($_SESSION[$item][$key]) ? $_SESSION[$item][$key] : FALSE;
             } else {
