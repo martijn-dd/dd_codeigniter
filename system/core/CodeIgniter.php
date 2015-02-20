@@ -407,11 +407,13 @@
  * ------------------------------------------------------
  *  Close the DB connection if one exists
  * ------------------------------------------------------
+ * 
+ * Commented, breaks the new session class (does a db update at end of php execution).
  */
-	if (class_exists('CI_DB') AND isset($CI->db))
-	{
-		$CI->db->close();
-	}
+//	if (class_exists('CI_DB') AND isset($CI->db))
+//	{
+//		$CI->db->close();
+//	}
 
 
 /* End of file CodeIgniter.php */
