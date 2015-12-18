@@ -5,8 +5,9 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
+ * @author		EllisLab Dev Team
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -23,7 +24,7 @@
  * @package		CodeIgniter
  * @subpackage	codeigniter
  * @category	Common Functions
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		http://codeigniter.com/user_guide/
  */
 
@@ -31,9 +32,6 @@
 
 /**
 * Determines if the current version of PHP is greater then the supplied value
-*
-* Since there are a few places where we conditionally test for PHP > 5
-* we'll set a static variable.
 *
 * @access	public
 * @param	string
@@ -217,7 +215,8 @@ if ( ! function_exists('get_config'))
 	{
 		static $_config;
 
-		if (isset($_config)) {
+		if (isset($_config)) 
+        {
 			return $_config[0];
 		}
 
@@ -228,7 +227,8 @@ if ( ! function_exists('get_config'))
             APPPATH . 'config/config.php',
             SITEPATH . 'config/config.php',
         );
-        if (defined('ENVIRONMENT')) {
+        if (defined('ENVIRONMENT')) 
+        {
             $paths = array_merge(
                 $paths,
                 array(
@@ -237,32 +237,40 @@ if ( ! function_exists('get_config'))
                 )
             );
         }
-        foreach ($paths as $file_path) {
-            if (file_exists($file_path)) {
+        foreach ($paths as $file_path) 
+        {
+            if (file_exists($file_path)) 
+            {
                 require $file_path;
 
                 $loaded = true;
             }
         }
 
-		if (!$loaded) {
+		if (!$loaded) 
+        {
 			exit('The configuration file does not exist.');
 		}
 
-		if (empty($config)) {
+		if (empty($config)) 
+        {
 			exit('Your config file does not appear to be formatted correctly.');
 		}
 
 		// Are any values being dynamically replaced?
-		if (count($replace) > 0) {
-			foreach ($replace as $key => $val) {
-				if (isset($config[$key])) {
+		if (count($replace) > 0) 
+        {
+			foreach ($replace as $key => $val) 
+            {
+				if (isset($config[$key])) 
+                {
 					$config[$key] = $val;
 				}
 			}
 		}
 
-		return $_config[0] =& $config;
+		$_config[0] =& $config;
+		return $_config[0];
 	}
 }
 

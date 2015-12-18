@@ -2,11 +2,12 @@
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 4.3.2 or newer
+ * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2006 - 2012 EllisLab, Inc.
+ * @author		EllisLab Dev Team
+ * @copyright		Copyright (c) 2006 - 2014 EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 2.0
@@ -21,10 +22,9 @@
  * @package		CodeIgniter
  * @subpackage	Libraries
  * @category	Core
- * @author		ExpressionEngine Dev Team
+ * @author		EllisLab Dev Team
  * @link		
  */
-
 class CI_Cache_file extends CI_Driver {
 
 	protected $_cache_path;
@@ -76,8 +76,8 @@ class CI_Cache_file extends CI_Driver {
 	 *
 	 * @param 	string		unique key
 	 * @param 	mixed		data to store
-	 * @param 	int			length of time (in seconds) the cache is valid 
-	 *						- Default is 60 seconds
+	 * @param 	int		length of time (in seconds) the cache is valid
+	 *					- Default is 60 seconds
 	 * @return 	boolean		true on success/false on failure
 	 */
 	public function save($id, $data, $ttl = 60)
@@ -187,9 +187,7 @@ class CI_Cache_file extends CI_Driver {
 		return is_really_writable($this->_cache_path);
 	}
 
-	// ------------------------------------------------------------------------
 }
-// End Class
 
 /* End of file Cache_file.php */
 /* Location: ./system/libraries/Cache/drivers/Cache_file.php */
