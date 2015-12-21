@@ -5,9 +5,10 @@
  * An open source application development framework for PHP 5.1.6 or newer
  *
  * @package		CodeIgniter
- * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
- * @license		http://codeigniter.com/user_guide/license.html
  * @author		EllisLab Dev Team
+ * @copyright		Copyright (c) 2008 - 2014, EllisLab, Inc.
+ * @copyright		Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 2.1.2
  * @filesource
@@ -95,13 +96,13 @@ class CI_DB_pdo_driver extends CI_DB {
 
 		$conn = new PDO($this->hostname, $this->username, $this->password, $this->options);
         
-	        // Need this for PHP < 5.3.6
-	        if ( ! is_php('5.3.6'))
-	        {
-			$conn->exec($this->options['PDO::MYSQL_ATTR_INIT_COMMAND']);
-	        }
+        // Need this for PHP < 5.3.6
+        if ( ! is_php('5.3.6'))
+        {
+            $conn->exec($this->options['PDO::MYSQL_ATTR_INIT_COMMAND']);
+        }
 	        
-	        return $conn;
+        return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -119,13 +120,13 @@ class CI_DB_pdo_driver extends CI_DB {
 	
 		$conn = new PDO($this->hostname, $this->username, $this->password, $this->options);
         
-	        // Need this for PHP < 5.3.6
-	        if ( ! is_php('5.3.6'))
-	        {
+        // Need this for PHP < 5.3.6
+        if ( ! is_php('5.3.6'))
+        {
 			$conn->exec($this->options['PDO::MYSQL_ATTR_INIT_COMMAND']);
-	        }
+        }
 	        
-	        return $conn;
+        return $conn;
 	}
 
 	// --------------------------------------------------------------------
@@ -204,14 +205,12 @@ class CI_DB_pdo_driver extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);
 		$result_id = $this->conn_id->prepare($sql);
-		$result_id->execute();
 		
-		if (is_object($result_id))
+		if (is_object($result_id) && $result_id->execute())
 		{
 			if (is_numeric(stripos($sql, 'SELECT')))
 			{
 				$this->affect_rows = count($result_id->fetchAll());
-				$result_id->execute();
 			}
 			else
 			{
@@ -221,6 +220,7 @@ class CI_DB_pdo_driver extends CI_DB {
 		else
 		{
 			$this->affect_rows = 0;
+			return FALSE;
 		}
 		
 		return $result_id;

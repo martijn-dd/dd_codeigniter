@@ -486,9 +486,6 @@ if ( ! function_exists('_exception_handler'))
 	{
 		 // We don't bother with "strict" notices since they tend to fill up
 		 // the log file with excess information that isn't normally very helpful.
-		 // For example, if you are running PHP 5 and you use version 4 style
-		 // class functions (without prefixes like "public", "private", etc.)
-		 // you'll get notices telling you that these have been deprecated.
 		if ($severity == E_STRICT)
 		{
 			return;
